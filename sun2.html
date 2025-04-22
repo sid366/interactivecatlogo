@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>ZIM - Code Creativity</title>
+
+<!-- zimjs.com - JavaScript Canvas Framework -->
+<script type="module">
+
+import zim from "https://zimjs.org/cdn/017/zim";
+
+const assets = ["surf.png", "water.png", "logo.png"];
+const path = "assets/";
+
+new Frame(FIT, 1024, 768, light, dark, ready, assets, path);
+
+
+
+
+function ready() {
+    F.color = black;
+
+
+    const emitter = new Emitter({
+        obj: new Pic("water.png").scaleTo(S, 6),
+        interval: 0.01,
+        num: 10,
+        life: 0.7,
+        decayTime: 0.28,
+        fade: true,
+        shrink: true,
+        force: { min: 2, max: 4 },
+        angle: { min: 450, max: 900 },
+        startPaused: true 
+    }).centerReg(); 
+
+    const logo = new Pic("logo.png").centerReg();
+    const pulseCircle = new Pic("surf.png").centerReg().sca(0.5); 
+
+    logo.animate({
+        props: { rotation: 360 },
+        time: 12,
+        loop: true,
+        ease: "linear"
+    });
+
+    const colors = ["yellow", "hotpink", "pink", "orange", "grey", "black", "white", "aqua"];
+    let i = 0;
+
+    const backgroundRect = new Rectangle(W, H, "black").centerReg().ord(-5);
+
+    logo.on("click", () => {
+        if (i < colors.length) {
+            backgroundRect.animate({
+                props: { color: colors[i] },
+                time: 1.5
+            });
+            i++;
+        } else {
+            backgroundRect.animate({
+                props: { color: "burlywood" },
+                time: 1.5
+            });
+            i = 0;
+        }
+    });
+
+    pulseCircle.on("mouseover", () => {
+        pulseCircle.wiggle("rotation", 0, 2, 10, 0.5, 1);
+    });
+
+    let meow = new Aud("meow.mp3");
+    let splash = new Aud("splash.mp3");
+
+    pulseCircle.on("click", () => {
+        meow.play();
+        pulseCircle.animate({
+            props: { y: 350 },
+            time: 0.1,
+            rewind: true
+        });
+    });
+
+   
+    
+
+    
+
+    logo.on("click", () => {
+        splash.play();
+        pulseCircle.animate({
+            props: { scale: 0.7, rotation: 360 },
+            time: 0.5,
+            rewind: true,
+            ease: "elasticOut"
+        });
+
+       
+            // Trigger the emitter here
+            emitter.spurt(550, 30, true);
+     
+    });
+}
+
+</script>
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+</head>
+<body></body>
+</html>
