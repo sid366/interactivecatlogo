@@ -69,6 +69,10 @@ function ready() {
         pulseCircle.wiggle("rotation", 0, 2, 10, 0.5, 1);
     });
 
+    pulseCircle.on("mouseout", () => {
+        pulseCircle.pauseAnimate();
+    });
+
     let meow = new Aud("meow.mp3");
     let splash = new Aud("splash.mp3");
 
